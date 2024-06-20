@@ -58,9 +58,10 @@ type World struct {
             Type    string      `xml:"link_type"`
             ID      int32        `xml:"hfid"`
         } `xml:"hf_link"`
-        Relations   []struct {
+        EntityRelation []struct {
             Type    string      `xml:"link_type"`
             ID      int32        `xml:"entity_id"`
+            Strength int32      `xml:"link_strength"`
         } `xml:"entity_link"`
         RelationPos []struct {
             PositionProfileID   int32        `xml:"position_profile_id"`
@@ -209,44 +210,21 @@ type album struct {
 }
 
 var world World
-// albums slice to seed record album data.
-var albums = []album {
-	{ID: "1", Title: "Blue Train", Artist: "John Coltrane", Price: 56.99},
-    {ID: "2", Title: "Jeru", Artist: "Gerry Mulligan", Price: 17.99},
-    {ID: "3", Title: "Sarah Vaughan and Clifford Brown", Artist: "Sarah Vaughan", Price: 39.99},
-}
-
 
 // postAlbums adds an album from JSON received in the request body.
-func postAlbums(c *gin.Context) {
-    var newAlbum album
+// func postAlbums(c *gin.Context) {
+//     var newAlbum album
 
-    // Call BindJSON to bind the received JSON to
-    // newAlbum.
-    if err := c.BindJSON(&newAlbum); err != nil {
-        return
-    }
+//     // Call BindJSON to bind the received JSON to
+//     // newAlbum.
+//     if err := c.BindJSON(&newAlbum); err != nil {
+//         return
+//     }
 
-    // Add the new album to the slice.
-    albums = append(albums, newAlbum)
-    c.IndentedJSON(http.StatusCreated, newAlbum)
-}
-
-// getAlbumByID locates the album whose ID value matches the id
-// parameter sent by the client, then returns that album as a response.
-func getRegionByID(c *gin.Context) {
-    id := c.Param("id")
-
-    // Loop over the list of albums, looking for
-    // an album whose ID value matches the parameter.
-    for _, a := range world.Regions {
-        if strconv.Itoa(int(a.ID)) == id {
-            c.IndentedJSON(http.StatusOK, a)
-            return
-        }
-    }
-    c.IndentedJSON(http.StatusNotFound, gin.H{"message": "region not found"})
-}
+//     // Add the new album to the slice.
+//     albums = append(albums, newAlbum)
+//     c.IndentedJSON(http.StatusCreated, newAlbum)
+// }
 
 func getAll(c *gin.Context) {
     c.IndentedJSON(http.StatusOK, world)
@@ -266,6 +244,234 @@ func getSites(c *gin.Context) {
 
 func getArtifacts(c *gin.Context) {
     c.IndentedJSON(http.StatusOK, world.Artifacts)
+}
+
+func getHistoricalFigures(c *gin.Context) {
+    c.IndentedJSON(http.StatusOK, world.HistoricalFigures)
+}
+
+func getEntityPopulations(c *gin.Context) {
+    c.IndentedJSON(http.StatusOK, world.EntityPopulations)
+}
+
+func getEntities(c *gin.Context) {
+    c.IndentedJSON(http.StatusOK, world.Entities)
+}
+
+func getHistoricalEvents(c *gin.Context) {
+    c.IndentedJSON(http.StatusOK, world.HistoricalEvents)
+}
+
+func getHistoricalEventCollections(c *gin.Context) {
+    c.IndentedJSON(http.StatusOK, world.HistoricalEventCollections)
+}
+
+func getHistoricalEras(c *gin.Context) {
+    c.IndentedJSON(http.StatusOK, world.HistoricalEras)
+}
+
+func getWrittenContents(c *gin.Context) {
+    c.IndentedJSON(http.StatusOK, world.WrittenContents)
+}
+
+func getPoeticForms(c *gin.Context) {
+    c.IndentedJSON(http.StatusOK, world.PoeticForms)
+}
+
+func getMusicalForms(c *gin.Context) {
+    c.IndentedJSON(http.StatusOK, world.MusicalForms)
+}
+
+func getDanceForms(c *gin.Context) {
+    c.IndentedJSON(http.StatusOK, world.DanceForms)
+}
+
+func getRegionByID(c *gin.Context) {
+    id := c.Param("id")
+    for _, a := range world.Regions {
+        if strconv.Itoa(int(a.ID)) == id {
+            c.IndentedJSON(http.StatusOK, a)
+            return
+        }
+    }
+    c.IndentedJSON(http.StatusNotFound, gin.H{"message": "region not found"})
+}
+
+func getUndergroundRegionByID(c *gin.Context) {
+    id := c.Param("id")
+    for _, a := range world.UndergroundRegions {
+        if strconv.Itoa(int(a.ID)) == id {
+            c.IndentedJSON(http.StatusOK, a)
+            return
+        }
+    }
+    c.IndentedJSON(http.StatusNotFound, gin.H{"message": "underground region not found"})
+}
+
+func getSiteByID(c *gin.Context) {
+    id := c.Param("id")
+    for _, a := range world.Sites {
+        if strconv.Itoa(int(a.ID)) == id {
+            c.IndentedJSON(http.StatusOK, a)
+            return
+        }
+    }
+    c.IndentedJSON(http.StatusNotFound, gin.H{"message": "region not found"})
+}
+
+func getArtifactByID(c *gin.Context) {
+    id := c.Param("id")
+    for _, a := range world.Artifacts {
+        if strconv.Itoa(int(a.ID)) == id {
+            c.IndentedJSON(http.StatusOK, a)
+            return
+        }
+    }
+    c.IndentedJSON(http.StatusNotFound, gin.H{"message": "region not found"})
+}
+
+func getHistoricalFigureByID(c *gin.Context) {
+    id := c.Param("id")
+    for _, a := range world.HistoricalFigures {
+        if strconv.Itoa(int(a.ID)) == id {
+            c.IndentedJSON(http.StatusOK, a)
+            return
+        }
+    }
+    c.IndentedJSON(http.StatusNotFound, gin.H{"message": "region not found"})
+}
+
+func getEntityByID(c *gin.Context) {
+    id := c.Param("id")
+    for _, a := range world.Entities {
+        if strconv.Itoa(int(a.ID)) == id {
+            c.IndentedJSON(http.StatusOK, a)
+            return
+        }
+    }
+    c.IndentedJSON(http.StatusNotFound, gin.H{"message": "region not found"})
+}
+
+func getHistoricalEventByID(c *gin.Context) {
+    id := c.Param("id")
+    for _, a := range world.HistoricalEvents {
+        if strconv.Itoa(int(a.ID)) == id {
+            c.IndentedJSON(http.StatusOK, a)
+            return
+        }
+    }
+    c.IndentedJSON(http.StatusNotFound, gin.H{"message": "region not found"})
+}
+
+func getHistoricalEventCollectionByID(c *gin.Context) {
+    id := c.Param("id")
+    for _, a := range world.HistoricalEventCollections {
+        if strconv.Itoa(int(a.ID)) == id {
+            c.IndentedJSON(http.StatusOK, a)
+            return
+        }
+    }
+    c.IndentedJSON(http.StatusNotFound, gin.H{"message": "region not found"})
+}
+
+func getWrittenContentByID(c *gin.Context) {
+    id := c.Param("id")
+    for _, a := range world.WrittenContents {
+        if strconv.Itoa(int(a.ID)) == id {
+            c.IndentedJSON(http.StatusOK, a)
+            return
+        }
+    }
+    c.IndentedJSON(http.StatusNotFound, gin.H{"message": "region not found"})
+}
+
+func getPoeticFormByID(c *gin.Context) {
+    id := c.Param("id")
+    for _, a := range world.PoeticForms {
+        if strconv.Itoa(int(a.ID)) == id {
+            c.IndentedJSON(http.StatusOK, a)
+            return
+        }
+    }
+    c.IndentedJSON(http.StatusNotFound, gin.H{"message": "region not found"})
+}
+
+func getMusicalFormByID(c *gin.Context) {
+    id := c.Param("id")
+    for _, a := range world.MusicalForms {
+        if strconv.Itoa(int(a.ID)) == id {
+            c.IndentedJSON(http.StatusOK, a)
+            return
+        }
+    }
+    c.IndentedJSON(http.StatusNotFound, gin.H{"message": "region not found"})
+}
+
+func getDanceFormByID(c *gin.Context) {
+    id := c.Param("id")
+    for _, a := range world.DanceForms {
+        if strconv.Itoa(int(a.ID)) == id {
+            c.IndentedJSON(http.StatusOK, a)
+            return
+        }
+    }
+    c.IndentedJSON(http.StatusNotFound, gin.H{"message": "region not found"})
+}
+
+func getRegionSize(c *gin.Context) {
+    c.IndentedJSON(http.StatusOK, len(world.Regions))
+}
+
+func getUndergroundRegionSize(c *gin.Context) {
+    c.IndentedJSON(http.StatusOK, len(world.UndergroundRegions))
+}
+
+func getSiteSize(c *gin.Context) {
+    c.IndentedJSON(http.StatusOK, len(world.Sites))
+}
+
+func getArtifactSize(c *gin.Context) {
+    c.IndentedJSON(http.StatusOK, len(world.Artifacts))
+}
+
+func getHistoricalFigureSize(c *gin.Context) {
+    c.IndentedJSON(http.StatusOK, len(world.HistoricalFigures))
+}
+
+func getEntityPopulationSize(c *gin.Context) {
+    c.IndentedJSON(http.StatusOK, len(world.EntityPopulations))
+}
+
+func getEntitySize(c *gin.Context) {
+    c.IndentedJSON(http.StatusOK, len(world.Entities))
+}
+
+func getHistoricalEventSize(c *gin.Context) {
+    c.IndentedJSON(http.StatusOK, len(world.HistoricalEvents))
+}
+
+func getHistoricalEventCollectionSize(c *gin.Context) {
+    c.IndentedJSON(http.StatusOK, len(world.HistoricalEventCollections))
+}
+
+func getHistoricalEraSize(c *gin.Context) {
+    c.IndentedJSON(http.StatusOK, len(world.HistoricalEras))
+}
+
+func getWrittenContentSize(c *gin.Context) {
+    c.IndentedJSON(http.StatusOK, len(world.WrittenContents))
+}
+
+func getPoeticFormSize(c *gin.Context) {
+    c.IndentedJSON(http.StatusOK, len(world.PoeticForms))
+}
+
+func getMusicalFormSize(c *gin.Context) {
+    c.IndentedJSON(http.StatusOK, len(world.MusicalForms))
+}
+
+func getDanceFormSize(c *gin.Context) {
+    c.IndentedJSON(http.StatusOK, len(world.DanceForms))
 }
 
 func getRegionNames(c *gin.Context) {
@@ -308,8 +514,46 @@ func main() {
 	router := gin.Default()
 	router.GET("/all", getAll)
     router.GET("/regions", getRegions)
+    router.GET("/underground_regions", getUndergroundRegions)
+    router.GET("/sites", getSites)
+    router.GET("/artifacts", getArtifacts)
+    router.GET("/historical_figures", getHistoricalFigures)
+    router.GET("/entity_populations", getEntityPopulations)
+    router.GET("/entities", getEntities)
+    router.GET("/historical_events", getHistoricalEvents)
+    router.GET("/historical_event_collections", getHistoricalEventCollections)
+    router.GET("/historical_eras", getHistoricalEras)
+    router.GET("/written_contents", getWrittenContents)
+    router.GET("/poetic_forms", getPoeticForms)
+    router.GET("/musical_forms", getMusicalForms)
+    router.GET("/dance_forms", getDanceForms)
     router.GET("/region/names", getRegionNames)
     router.GET("/region/:id", getRegionByID)
+    router.GET("/underground_region/:id", getUndergroundRegionByID)
+    router.GET("/site/:id", getSiteByID)
+    router.GET("/artifact/:id", getArtifactByID)
+    router.GET("/historical_figure/:id", getHistoricalFigureByID)
+    router.GET("/entity/:id", getEntityByID)
+    router.GET("/historical_event/:id", getHistoricalEventByID)
+    router.GET("/historical_event_collection/:id", getHistoricalEventCollectionByID)
+    router.GET("/written_content/:id", getWrittenContentByID)
+    router.GET("/poetic_form/:id", getPoeticFormByID)
+    router.GET("/musical_form/:id", getMusicalFormByID)
+    router.GET("/dance_form/:id", getDanceFormByID)
+    router.GET("/size/regions", getRegionSize)
+    router.GET("/size/underground_regions", getUndergroundRegionSize)
+    router.GET("/size/sites", getSiteSize)
+    router.GET("/size/artifacts", getArtifactSize)
+    router.GET("/size/historical_figures", getHistoricalFigureSize)
+    router.GET("/size/entity_populations", getEntityPopulationSize)
+    router.GET("/size/entities", getEntitySize)
+    router.GET("/size/historical_events", getHistoricalEventSize)
+    router.GET("/size/historical_event_collections", getHistoricalEventCollectionSize)
+    router.GET("/size/historical_eras", getHistoricalEraSize)
+    router.GET("/size/written_contents", getWrittenContentSize)
+    router.GET("/size/poetic_forms", getPoeticFormSize)
+    router.GET("/size/musical_forms", getMusicalFormSize)
+    router.GET("/size/dance_forms", getDanceFormSize)
 
     router.Run("localhost:8080")
 }

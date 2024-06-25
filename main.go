@@ -89,58 +89,7 @@ type World struct {
         ID          int32        `xml:"id"`
         Name        string      `xml:"name"`
     } `xml:"entities>entity"`
-    HistoricalEvents []struct {
-        ID          int32        `xml:"id"`
-        Year        int32        `xml:"year"`
-        Time        int32       `xml:"seconds72"`
-        Type        string      `xml:"type"`
-        Civ         int32       `xml:"civ_id"`
-        Link        string      `xml:"link"`
-        HFID        int32       `xml:"hfid"`
-        Position    int32       `xml:"position_id"`
-        HFIDTarget  int32       `xml:"hfid_target"`
-        Artifact    int32       `xml:"artifact_id"`
-        Unit        int32   `xml:"unit_id"`
-        Creator     int32   `xml:"hist_figure_id"`
-        Attacker    int32   `xml:"attacker_hfid"`
-        AttackerCiv int32   `xml:"attacker_civ_id"`
-        DefenderCiv int32   `xml:"defender_civ_id"`
-        SiteCiv     int32   `xml:"site_civ_id"`
-        Site        int32  `xml:"site_id"`
-        AttackerGeneral int32   `xml:"attacker_general_hfid"`
-        DefenderGeneral int32   `xml:"defender_general_hfid"`
-        Coords      string  `xml:"coords"`
-        State       string  `xml:"state"`
-        Changee     int32   `xml:"changee_hfid"`
-        Changer     int32   `xml:"changer_hfid"`
-        OldRace     string  `xml:"old_race"`
-        OldGender   string  `xml:"old_caste"`
-        NewRace     string  `xml:"new_race"`
-        NewGender   string  `xml:"new_caste"`
-        Structure   int32   `xml:"structure_id"`
-        WCID        int32   `xml:"wcid"`
-        Master      int32   `xml:"master_wcid"`
-        Site1       int32   `xml:"site_id1"`
-        Site2       int32   `xml:"site_id2"`
-        Entity      int32   `xml:"entity_id"`
-        SnatchedTarget int32    `xml:"target_hfid"`
-        Snatcher    int32   `xml:"snatcher_hfid"`
-        Slayer      int32   `xml:"slayer_hfid"`
-        SlayerRace  string  `xml:"slayer_race"`
-        SlayerGender string `xml:"slayer_caste"`
-        SlayerItem  int32   `xml:"slayer_item_id"`
-        SlayerGun   int32   `xml:"slayer_shooter_item_id"`
-        Cause       string  `xml:"cause"`
-        Group       int32   `xml:"group_hfid"`
-        Group1      int32   `xml:"group_1_hfid"`
-        Group2      int32   `xml:"group_2_hfid"`
-        Actor       int32   `xml:"actor_hfid"`
-        Subtype     string  `xml:"subtype"`
-        Woundee     int32   `xml:"woundee_hfid"`
-        Wounder     int32   `xml:"wounder_hfid"`
-        NewSite     int32   `xml:"new_site_civ_id"`
-        NewLeader   int32   `xml:"new_leader_hfid"`
-    } `xml:"historical_events>historical_event"`
+    HistoricalEvents []HistoricalEvent `xml:"historical_events>historical_event"`
     HistoricalEventCollections []struct {
         ID          int32   `xml:"id"`
         Start       int32   `xml:"start_year"`
@@ -200,6 +149,58 @@ type World struct {
     } `xml:"dance_forms>dance_form"`
 }
 
+type HistoricalEvent struct {
+    ID          int32        `xml:"id"`
+    Year        int32        `xml:"year"`
+    Time        int32       `xml:"seconds72"`
+    Type        string      `xml:"type"`
+    Civ         int32       `xml:"civ_id"`
+    Link        string      `xml:"link"`
+    HFID        int32       `xml:"hfid"`
+    Position    int32       `xml:"position_id"`
+    HFIDTarget  int32       `xml:"hfid_target"`
+    Artifact    int32       `xml:"artifact_id"`
+    Unit        int32   `xml:"unit_id"`
+    Creator     int32   `xml:"hist_figure_id"`
+    Attacker    int32   `xml:"attacker_hfid"`
+    AttackerCiv int32   `xml:"attacker_civ_id"`
+    DefenderCiv int32   `xml:"defender_civ_id"`
+    SiteCiv     int32   `xml:"site_civ_id"`
+    Site        int32  `xml:"site_id"`
+    AttackerGeneral int32   `xml:"attacker_general_hfid"`
+    DefenderGeneral int32   `xml:"defender_general_hfid"`
+    Coords      string  `xml:"coords"`
+    State       string  `xml:"state"`
+    Changee     int32   `xml:"changee_hfid"`
+    Changer     int32   `xml:"changer_hfid"`
+    OldRace     string  `xml:"old_race"`
+    OldGender   string  `xml:"old_caste"`
+    NewRace     string  `xml:"new_race"`
+    NewGender   string  `xml:"new_caste"`
+    Structure   int32   `xml:"structure_id"`
+    WCID        int32   `xml:"wcid"`
+    Master      int32   `xml:"master_wcid"`
+    Site1       int32   `xml:"site_id1"`
+    Site2       int32   `xml:"site_id2"`
+    Entity      int32   `xml:"entity_id"`
+    SnatchedTarget int32    `xml:"target_hfid"`
+    Snatcher    int32   `xml:"snatcher_hfid"`
+    Slayer      int32   `xml:"slayer_hfid"`
+    SlayerRace  string  `xml:"slayer_race"`
+    SlayerGender string `xml:"slayer_caste"`
+    SlayerItem  int32   `xml:"slayer_item_id"`
+    SlayerGun   int32   `xml:"slayer_shooter_item_id"`
+    Cause       string  `xml:"cause"`
+    Group       int32   `xml:"group_hfid"`
+    Group1      int32   `xml:"group_1_hfid"`
+    Group2      int32   `xml:"group_2_hfid"`
+    Actor       int32   `xml:"actor_hfid"`
+    Subtype     string  `xml:"subtype"`
+    Woundee     int32   `xml:"woundee_hfid"`
+    Wounder     int32   `xml:"wounder_hfid"`
+    NewSite     int32   `xml:"new_site_civ_id"`
+    NewLeader   int32   `xml:"new_leader_hfid"`
+}
 
 // album represents data about a record album.
 type album struct {
@@ -480,6 +481,47 @@ func getRegionNames(c *gin.Context) {
     for _, a := range world.Regions {
         if a.Name != "" {
             li = append(li, a.Name)
+        }
+    }
+
+    c.IndentedJSON(http.StatusOK, li)
+}
+
+func getEntityEvents(c *gin.Context) {
+    id := c.Param("id")
+    li := []HistoricalEvent{}
+
+    for _, a := range world.HistoricalEvents {
+        if a.Entity == id {
+            li = append(li, a)
+        }
+    }
+
+    c.IndentedJSON(http.StatusOK, li)
+}
+
+func getSiteEvents(c *gin.Context) {
+    id := c.Param("id")
+    li := []HistoricalEvent{}
+
+    for _, a := range world.HistoricalEvents {
+        if a.Site == id {
+            li = append(li, a)
+        }
+    }
+
+    c.IndentedJSON(http.StatusOK, li)
+}
+
+func getHistoricalFigureEvents(c *gin.Context) {
+    id := c.Param("id")
+    li := []HistoricalEvent{}
+
+    for _, a := range world.HistoricalEvents {
+        if a.HFID == id || a.Creator || a.Changee ||
+            a.Changer || a.HFIDTarget || a.SnatchedTarget ||
+            a.Snatcher || a.Slayer || a.Woundee || a.Wounder {
+            li = append(li, a)
         }
     }
 
